@@ -8,19 +8,19 @@ public class Main {
         TaskManager tm = new TaskManager();
         printAll(tm, "После создания --------------");
 
-        Task task01 = new Task("task01", "Description task01", TaskStatus.NEW);
+        Task task01 = new Task("task01", null, TaskStatus.NEW);
         tm.insTask(task01);
-        Task task02 = new Task("task02", "Description task02", TaskStatus.IN_PROGRESS);
+        Task task02 = new Task("task02", null, TaskStatus.IN_PROGRESS);
         tm.insTask(task02);
-        Epic epic04 = new Epic("epic04", "Description epic04", TaskStatus.NEW);
+        Epic epic04 = new Epic("epic04", null, TaskStatus.NEW);
         tm.insEpic(epic04);
-        SubTask subTask0401 = new SubTask("subTask0401", "Description subTask0401", TaskStatus.NEW, epic04.getId());
+        SubTask subTask0401 = new SubTask("subTask0401", null, TaskStatus.NEW, epic04.getId());
         tm.insSubTask(subTask0401);
-        SubTask subTask0402 = new SubTask("subTask0402", "Description subTask0402", TaskStatus.IN_PROGRESS, epic04.getId());
+        SubTask subTask0402 = new SubTask("subTask0402", null, TaskStatus.IN_PROGRESS, epic04.getId());
         tm.insSubTask(subTask0402);
-        Epic epic05 = new Epic("epic05", "Description epic05", TaskStatus.NEW);
+        Epic epic05 = new Epic("epic05", null, TaskStatus.NEW);
         tm.insEpic(epic05);
-        SubTask subTask0501 = new SubTask("subTask50", "Description subTask50", TaskStatus.DONE, epic05.getId());
+        SubTask subTask0501 = new SubTask("subTask0501", null, TaskStatus.DONE, epic05.getId());
         tm.insSubTask(subTask0501);
         printAll(tm, "После вставки --------------");
 

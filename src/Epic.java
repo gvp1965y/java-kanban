@@ -3,11 +3,6 @@ import java.util.ArrayList;
 public class Epic extends Task{
     protected ArrayList<Integer> subTaskIds; //#ASK@BOBA private/protected
 
-    public Epic(int id, String name, String description, TaskStatus status) {
-        super (id, name, description, status);
-        subTaskIds = new ArrayList<>();
-    }
-
     public Epic(String name, String description, TaskStatus status) {
         super (name, description, status);
         subTaskIds = new ArrayList<>();
@@ -33,10 +28,6 @@ public class Epic extends Task{
 
     public ArrayList<Integer> getSubTaskIds() {
         return subTaskIds;
-    }
-
-    public void setSubTaskIds(ArrayList<Integer> subTaskIds) {
-        this.subTaskIds = subTaskIds;
     }
 
     public void removeSubTask(Integer id) {

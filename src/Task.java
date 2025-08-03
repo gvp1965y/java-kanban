@@ -6,16 +6,9 @@ public class Task {
     protected String description;
     protected TaskStatus status;
 
-    public Task(int id, String name, String description, TaskStatus status) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.status = status;
-    }
-
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
-        this.description = description;
+        setDescription(description);
         this.status = status;
     }
 
@@ -63,7 +56,11 @@ public class Task {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null || description.isEmpty()) {
+            this.description = "Description " + this.name;
+        } else {
+            this.description = description;
+        }
     }
 
     public TaskStatus getStatus() {
