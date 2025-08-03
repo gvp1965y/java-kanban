@@ -18,18 +18,12 @@ public class TaskManager {
         return tasks.get(id);
     }
     public ArrayList<Task> getTasks() {
-        //ArrayList<Task> result = new ArrayList<>();
-        //for (int id : tasks.keySet()) {
-        //    result.add(tasks.get(id));
-        //}
-        //return result;
         return new ArrayList<>(tasks.values());
     }
-    public int insTask(Task task) {
+    public void insTask(Task task) {
         seqId++;
         task.setId(seqId);
         tasks.put(seqId, task);
-        return seqId;
     }
     public void updTask(Task task) {
         //#TODO
@@ -57,7 +51,7 @@ public class TaskManager {
     public ArrayList<SubTask> getSubTasks() {
         return new ArrayList<>(subtasks.values());
     }
-    public int insSubTask(SubTask subTask) {
+    public void insSubTask(SubTask subTask) {
         int epicId = subTask.getEpicId();
         if (epicId > 0) {
             seqId++;
@@ -65,9 +59,6 @@ public class TaskManager {
             subtasks.put(seqId, subTask);
             getEpic(epicId).getSubTaskIds().add(seqId);
             updateEpicStatus(epicId);
-            return seqId;
-        } else {
-            return 0;
         }
     }
     public void delSubTask(int id) {
@@ -90,11 +81,10 @@ public class TaskManager {
     public ArrayList<Epic> getEpics() {
         return new ArrayList<>(epics.values());
     }
-    public int insEpic(Epic epic) {
+    public void insEpic(Epic epic) {
         seqId++;
         epic.setId(seqId);
         epics.put(seqId, epic);
-        return seqId;
     }
     public void updEpic(Epic epic) {
         //#TODO
