@@ -26,7 +26,7 @@ public class TaskManager {
         tasks.put(seqId, task);
     }
     public void updTask(Task task) {
-        //#TODO
+        tasks.put(task.getId(), task);
     }
     public void delTask(int id) {
         tasks.remove(id);
@@ -61,6 +61,10 @@ public class TaskManager {
             updateEpicStatus(epicId);
         }
     }
+    public void updSubTask(SubTask subTask) {
+        subtasks.put(subTask.getId(), subTask);
+        updateEpicStatus(subTask.getEpicId());
+    }
     public void delSubTask(int id) {
         SubTask subTask = subtasks.get(id);
         subtasks.remove(id);
@@ -87,7 +91,8 @@ public class TaskManager {
         epics.put(seqId, epic);
     }
     public void updEpic(Epic epic) {
-        //#TODO
+        updateEpicStatus(epic.getId());
+        epics.put(epic.getId(), epic);
     }
     public void delEpic(int id) {
         ArrayList<Integer> delSubTask = new ArrayList<>();
