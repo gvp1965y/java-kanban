@@ -32,7 +32,6 @@ public class Main {
         tm.updSubTask(subTask0402);
         epic04.setStatus(TaskStatus.IN_PROGRESS);
         tm.updEpic(epic04);
-
         printAll(tm, "После изменения ------------");
 
         tm.delTask(task01.getId());
