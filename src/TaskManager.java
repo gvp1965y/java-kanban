@@ -50,25 +50,22 @@ public class TaskManager {
         return subtasks.get(id);
     }
 
-    public ArrayList<SubTask> getSubTaskByEpic(int epicId) {
-        Epic epic = epics.get(epicId);
+    public ArrayList<SubTask> getSubTaskByEpic(Epic epic) {
         if (epic == null) {
             return null;
-        } else {
-            ArrayList<SubTask> result = new ArrayList<>();
-            //
-            //#TODO@BOBA
-            //
-            return result;
         }
-        //ArrayList<SubTask> result = new ArrayList<>();
-        //for (int id : subtasks.keySet()) {
-        //    SubTask subTask = subtasks.get(id);
-        //    if (id == subTask.getEpicId()) {
-        //        result.add(subTask);
-        //    }
-        //}
-        //return result;
+        ArrayList<SubTask> result = new ArrayList<>();
+        for (Integer i : epic.getSubTaskIds()) {
+            result.add(subtasks.get(i));
+        }
+        return result;
+    }
+
+    public ArrayList<SubTask> getSubTaskByEpic(int epicId) {
+        if (!epics.containsKey(epicId)) {
+            return null;
+        }
+        return getSubTaskByEpic(epics.get(epicId));
     }
 
     public ArrayList<SubTask> getSubTasks() {
@@ -144,7 +141,7 @@ public class TaskManager {
         //epics.put(epicId, epic); //#ASK@BOBA почему недостаточно?
         epics.get(epicId).setName(epic.getName());
         epics.get(epicId).setDescription(epic.getDescription());
-        updateEpicStatus(epic);
+        updateEpicStatus(epicId);
         return true;
     }
 
@@ -153,6 +150,13 @@ public class TaskManager {
         if (epic == null) {
             return;
         }
+        for (Integer i : epic.getSubTaskIds()) {
+            if (subtasks.containsKey(i)) {
+                subtasks.remove(i);
+            }
+        }
+
+        /*
         ArrayList<Integer> delSubTask = new ArrayList<>();
         //#ASK@BOBA -- error
         //#TODO@BOBA
@@ -164,6 +168,8 @@ public class TaskManager {
         for (int i : delSubTask) {
             subtasks.remove(i);
         }
+
+         */
         epics.remove(id);
     }
 
@@ -193,7 +199,9 @@ public class TaskManager {
     }
 
     private void updateEpicStatus(int id) {
-        Epic epic = getEpic(id);
-        updateEpicStatus(epic);
+        if (!epics.containsKey(id)) {
+            return;
+        }
+        updateEpicStatus(getEpic(id));
     }
 }
