@@ -90,12 +90,15 @@ public class TaskManager {
 
     public boolean updSubTask(SubTask subTask) {
         int subTaskId = subTask.getId();
+        int epicId = subTask.getEpicId();
         if (!subtasks.containsKey(subTaskId)) {
             return false;
         }
-        //#TODO@BOBA
+        if (epicId != subtasks.get(subTaskId).getEpicId()) {
+            return false;
+        }
         subtasks.put(subTaskId, subTask);
-        updateEpicStatus(subTask.getEpicId());
+        updateEpicStatus(epicId);
         return true;
     }
 
@@ -138,9 +141,10 @@ public class TaskManager {
         if (!epics.containsKey(epicId)) {
             return false;
         }
-        //#TODO@BOBA
+        //epics.put(epicId, epic); //#ASK@BOBA почему недостаточно?
+        epics.get(epicId).setName(epic.getName());
+        epics.get(epicId).setDescription(epic.getDescription());
         updateEpicStatus(epic);
-        epics.put(epicId, epic);
         return true;
     }
 
