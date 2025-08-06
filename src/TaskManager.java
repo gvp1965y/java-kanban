@@ -155,6 +155,7 @@ public class TaskManager {
                 subtasks.remove(i);
             }
         }
+        epics.remove(id);
 
         /*
         ArrayList<Integer> delSubTask = new ArrayList<>();
@@ -168,9 +169,8 @@ public class TaskManager {
         for (int i : delSubTask) {
             subtasks.remove(i);
         }
-
-         */
         epics.remove(id);
+         */
     }
 
     public void delEpics() {
