@@ -29,8 +29,6 @@ public class Main {
         tm.updTask(task01);
         subTask0401.setStatus(TaskStatus.IN_PROGRESS);
         tm.updSubTask(subTask0401);
-        subTask0402.setStatus(TaskStatus.IN_PROGRESS);
-        tm.updSubTask(subTask0402);
         epic04.setStatus(TaskStatus.NEW);
         tm.updEpic(epic04);
         printAll(tm, "После изменения ------------");
@@ -38,6 +36,7 @@ public class Main {
         tm.delTask(task01.getId());
         tm.delEpic(epic04.getId());
         printAll(tm, "После удаления ------------");
+
         System.out.println("Приехали!");
     }
 

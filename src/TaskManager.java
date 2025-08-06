@@ -112,8 +112,7 @@ public class TaskManager {
     public void delSubTasks() {
         for (Epic epic : getEpics()) {
             epic.removeAllSubTask();
-            updateEpicStatus(epic);           //#ASK@BOBA
-            //epic.setStatus(TaskStatus.NEW); //#ASK@BOBA
+            updateEpicStatus(epic);
         }
         subtasks.clear();
     }
@@ -138,7 +137,6 @@ public class TaskManager {
         if (!epics.containsKey(epicId)) {
             return false;
         }
-        //epics.put(epicId, epic); //#ASK@BOBA почему недостаточно?
         epics.get(epicId).setName(epic.getName());
         epics.get(epicId).setDescription(epic.getDescription());
         updateEpicStatus(epicId);
@@ -151,26 +149,9 @@ public class TaskManager {
             return;
         }
         for (Integer i : epic.getSubTaskIds()) {
-            if (subtasks.containsKey(i)) {
-                subtasks.remove(i);
-            }
-        }
-        epics.remove(id);
-
-        /*
-        ArrayList<Integer> delSubTask = new ArrayList<>();
-        //#ASK@BOBA -- error
-        //#TODO@BOBA
-        for (int i : subtasks.keySet()) {
-            if (id == subtasks.get(i).getEpicId()) {
-                delSubTask.add(i);
-            }
-        }
-        for (int i : delSubTask) {
             subtasks.remove(i);
         }
         epics.remove(id);
-         */
     }
 
     public void delEpics() {
