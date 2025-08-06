@@ -1,4 +1,5 @@
-
+//#SAMPLE@BOBA: int task01Id = tm.insTask(task01); etc. subTask, epic
+//#SAMPLE@BOBA: boolean updated = tm.updTask(task01)); etc. subTask, epic
 
 public class Main {
 
