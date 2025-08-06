@@ -135,13 +135,12 @@ public class TaskManager {
 
     public boolean updEpic(Epic epic) {
         int epicId = epic.getId();
-        if (!subtasks.containsKey(epicId)) {
+        if (!epics.containsKey(epicId)) {
             return false;
         }
         //#TODO@BOBA
-        epics.put(epicId, epic);
-
         updateEpicStatus(epic);
+        epics.put(epicId, epic);
         return true;
     }
 

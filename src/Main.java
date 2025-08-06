@@ -27,11 +27,11 @@ public class Main {
 
         task01.setStatus(TaskStatus.IN_PROGRESS);
         tm.updTask(task01);
-        subTask0401.setStatus(TaskStatus.DONE);
+        subTask0401.setStatus(TaskStatus.IN_PROGRESS);
         tm.updSubTask(subTask0401);
-        subTask0402.setStatus(TaskStatus.DONE);
+        subTask0402.setStatus(TaskStatus.IN_PROGRESS);
         tm.updSubTask(subTask0402);
-        epic04.setStatus(TaskStatus.IN_PROGRESS);
+        epic04.setStatus(TaskStatus.NEW);
         tm.updEpic(epic04);
         printAll(tm, "После изменения ------------");
 
