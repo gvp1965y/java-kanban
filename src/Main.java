@@ -37,19 +37,36 @@ public class Main {
         tm.delEpic(epic04.getId());
         printAll(tm, "После удаления ------------");
 
+        tm.delTasks();
+        tm.delEpics();
+        tm.delSubTasks();
+        printAll(tm, "После удаления всех ------------");
+
         System.out.println("Приехали!");
     }
 
     static void printAll(TaskManager tm, String caption) {
         System.out.println(caption);
-        for (Task task : tm.getTasks()) {
-            System.out.println(task);
+        if (tm.getTasks().isEmpty()) {
+            System.out.println("Tasks " + tm.getTasks());
+        } else {
+            for (Task task : tm.getTasks()) {
+                System.out.println(task);
+            }
         }
-        for (SubTask subTask : tm.getSubTasks()) {
-            System.out.println(subTask);
+        if (tm.getSubTasks().isEmpty()) {
+            System.out.println("SubTasks " + tm.getSubTasks());
+        } else {
+            for (SubTask subTask : tm.getSubTasks()) {
+                System.out.println(subTask);
+            }
         }
-        for (Epic epic : tm.getEpics()) {
-            System.out.println(epic);
+        if (tm.getEpics().isEmpty()) {
+            System.out.println("Epics " + tm.getEpics());
+        } else {
+            for (Epic epic : tm.getEpics()) {
+                System.out.println(epic);
+            }
         }
     }
 }
