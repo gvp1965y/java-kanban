@@ -146,7 +146,13 @@ public class TaskManager {
     }
 
     public void delEpic(int id) {
+        Epic epic = getEpic(id);
+        if (epic == null) {
+            return;
+        }
         ArrayList<Integer> delSubTask = new ArrayList<>();
+        //#ASK@BOBA -- error
+        //#TODO@BOBA
         for (int i : subtasks.keySet()) {
             if (id == subtasks.get(i).getEpicId()) {
                 delSubTask.add(i);
