@@ -135,7 +135,7 @@ public class TaskManager {
         for (Integer i : epic.getSubTaskIds()) {
             if (getSubTask(i).getStatus() == TaskStatus.NEW) {
                 statusNew++;
-            } else {
+            } else if (getSubTask(i).getStatus() == TaskStatus.DONE) {
                 statusDone++;
             }
         }
