@@ -22,10 +22,11 @@ public class TaskManager {
         return new ArrayList<>(tasks.values());
     }
 
-    public void insTask(Task task) {
+    public Integer insTask(Task task) {
         seqId++;
         task.setId(seqId);
         tasks.put(seqId, task);
+        return seqId;
     }
 
     public void updTask(Task task) {
