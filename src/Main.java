@@ -6,7 +6,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
 
-        TaskManager tm = new TaskManager();
+        //TaskManager tm = new InMemoryTaskManager();
+        TaskManager tm = Managers.getDefault();
         printAll(tm, "После создания --------------");
 
         Task task01 = new Task("task01", null, TaskStatus.NEW);
@@ -31,9 +32,10 @@ public class Main {
         tm.updSubTask(subTask0401);
         epic04.setStatus(TaskStatus.NEW);
         tm.updEpic(epic04);
-        printAll(tm, "После изменения ------------");
+        printAll(tm, "После изменения Статусов ------------");
 
         tm.delTask(task01.getId());
+        tm.delSubTask(subTask0401.getId());
         tm.delEpic(epic04.getId());
         printAll(tm, "После удаления ------------");
 
@@ -48,25 +50,26 @@ public class Main {
     static void printAll(TaskManager tm, String caption) {
         System.out.println(caption);
         if (tm.getTasks().isEmpty()) {
-            System.out.println("Tasks " + tm.getTasks());
+            System.out.println("  Tasks " + tm.getTasks());
         } else {
             for (Task task : tm.getTasks()) {
-                System.out.println(task);
+                System.out.println("  "+task);
             }
         }
         if (tm.getSubTasks().isEmpty()) {
-            System.out.println("SubTasks " + tm.getSubTasks());
+            System.out.println("  SubTasks " + tm.getSubTasks());
         } else {
             for (SubTask subTask : tm.getSubTasks()) {
-                System.out.println(subTask);
+                System.out.println("  "+subTask);
             }
         }
         if (tm.getEpics().isEmpty()) {
-            System.out.println("Epics " + tm.getEpics());
+            System.out.println("  Epics " + tm.getEpics());
         } else {
             for (Epic epic : tm.getEpics()) {
-                System.out.println(epic);
+                System.out.println("  "+epic);
             }
         }
+        System.out.println("  History " + tm.getHistory()); //#DEBUG@BOBA
     }
 }
