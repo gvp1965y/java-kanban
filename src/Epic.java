@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Epic extends Task{
-    protected final ArrayList<Integer> subTaskIds; //#ASK@BOBA private/protected
+    protected final ArrayList<Integer> subTaskIds;
 
     public Epic(String name, String description, TaskStatus status) {
         super (name, description, status);
@@ -35,7 +35,7 @@ public class Epic extends Task{
         return subTaskIds;
     }
 
-    public void insSubTask(Integer id) {
+    public void insSubTask(int id) {
         if (id != this.id) {
             subTaskIds.add(id);
         }

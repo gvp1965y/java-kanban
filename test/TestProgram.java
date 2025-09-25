@@ -37,11 +37,35 @@ class TestProgram {
         final Epic epic = new Epic("Epic01", null, TaskStatus.NEW);
         final int epicId = taskManager.insEpic(epic);
         final Epic epicClone = taskManager.getEpic(epicId);
-        final SubTask subTask = new SubTask("SubTask01", null, TaskStatus.NEW, epic.getId());
+        final SubTask subTask = new SubTask("SubTask0101", null, TaskStatus.NEW, epic.getId());
         final int subTaskId = taskManager.insSubTask(subTask);
         final SubTask subTaskClone = taskManager.getSubTask(subTaskId);
         assertEquals(epic, epicClone, "Epic class instances with the same ID are not equal");
         assertEquals(subTask, subTaskClone, "SubTask class instances with the same ID are not equal");
+    }
+
+    @Test //проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
+    void taskManagerIsWorked() {
+        final Task task = new Task("Task01", null, TaskStatus.NEW);
+        final int taskId = taskManager.insTask(task);
+        final Task taskClone = taskManager.getTask(taskId);
+        final Epic epic = new Epic("Epic01", null, TaskStatus.NEW);
+        final int epicId = taskManager.insEpic(epic);
+        final Epic epicClone = taskManager.getEpic(epicId);
+        final SubTask subTask = new SubTask("SubTask0101", null, TaskStatus.NEW, epic.getId());
+        final int subTaskId = taskManager.insSubTask(subTask);
+        final SubTask subTaskClone = taskManager.getSubTask(subTaskId);
+        assertEquals(task, taskClone, "taskManager doesn't work with tasks");
+        assertEquals(epic, epicClone, "taskManager doesn't work with epics");
+        assertEquals(subTask, subTaskClone, "taskManager doesn't work with subtasks");
+    }
+
+    @Test //проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера
+    void taskManagerInvalidId () {
+        final Task task = new Task("Task01", null, TaskStatus.NEW);
+        final int taskId = taskManager.insTask(task);                                 // заданное id
+        final int taskNewId = taskManager.insTask(task);                              // сгенерированное id
+        assertNotEquals(taskManager.getTask(taskId), taskManager.getTask(taskNewId), "ID conflict in the taskManager");
     }
 
     @Test //проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
@@ -53,43 +77,14 @@ class TestProgram {
         assertEquals(subTaskCount, epic.getSubTaskIds().size(), "epic added myself to the subtasks");
     }
 
-    @Test //проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
-    void taskManagerIsWorked() {
-        final Task task = new Task("Task01", null, TaskStatus.NEW);
-        final int taskId = taskManager.insTask(task);
-        final Task taskClone = taskManager.getTask(taskId);
-        final Epic epic = new Epic("Epic01", null, TaskStatus.NEW);
-        final int epicId = taskManager.insEpic(epic);
-        final Epic epicClone = taskManager.getEpic(epicId);
-        final SubTask subTask = new SubTask("SubTask01", null, TaskStatus.NEW, epic.getId());
-        final int subTaskId = taskManager.insSubTask(subTask);
-        final SubTask subTaskClone = taskManager.getSubTask(subTaskId);
-        assertEquals(task, taskClone, "taskManager doesn't work with tasks");
-        assertEquals(epic, epicClone, "taskManager doesn't work with epics");
-        assertEquals(subTask, subTaskClone, "taskManager doesn't work with subtasks");
-    }
-
-    @Test //проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера
-    void taskManagerInvalidId () {
-        //#TODO@BOBA
-        final Task task = new Task("Task01", null, TaskStatus.NEW);
-        final int taskId = taskManager.insTask(task);                                      // заданное id
-        final Task taskOther = new Task("Task01", null, TaskStatus.NEW);
-        final int taskOtherId = taskManager.insTask(task);                                 // сгенерированное id
-        assertNotEquals(task, taskOther, "ID conflict in the taskManager");
-    }
-
     @Test //проверьте, что объект Subtask нельзя сделать своим же эпиком
     void subTaskDoesNotMakeItselfItsOwnEpic() {
-        //#TODO@BOBA
-        //Epic epic = new Epic("Epic01", null, TaskStatus.NEW);
-        //taskManager.insEpic(epic);
-        //SubTask subTask = new SubTask("SubTask01", null, TaskStatus.NEW, epic.getId());
-        //final int subTaskId = taskManager.insSubTask(subTask);
-        //epic.insSubTask(subTask.getId());
-        //final int subTaskCount = epic.getSubTaskIds().size();
-        //SubTask subTaskNew = new SubTask("SubTask02", null, TaskStatus.NEW, subTaskId);
-        assertEquals(0, 0, "subTask make itself its own epic");
+        Epic epic = new Epic("Epic01", null, TaskStatus.NEW);
+        final int epicId = taskManager.insEpic(epic);
+        SubTask subTask = new SubTask("SubTask0101", null, TaskStatus.NEW, epic.getId());
+        final int subTaskId = taskManager.insSubTask(subTask);
+        subTask.setId(epicId);
+        assertEquals(subTaskId, subTask.getId(), "subTask make itself its own epic");
     }
 
     @Test // создайте тест, в котором проверяется неизменность задачи (по всем полям) при добавлении задачи в менеджер

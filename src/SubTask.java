@@ -30,6 +30,13 @@ public class SubTask extends Task{
              + "}";
     }
 
+    @Override
+    public void setId(int id) {
+        if (id != this.epicId) {
+            this.id = id;
+        }
+    }
+
     public int getEpicId() {
         return epicId;
     }

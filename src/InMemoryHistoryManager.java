@@ -14,7 +14,7 @@ public class InMemoryHistoryManager implements HistoryManager{
         if (taskHistory.size() == TASK_HISTORY_MAX) {
             taskHistory.removeFirst();
         }
-        taskHistory.add(new Task(task));    //#ASK@BOBA:  history by clone
+        taskHistory.add(new Task(task));    //#ASK@BOBA:  history add clone task
     }
 
     @Override

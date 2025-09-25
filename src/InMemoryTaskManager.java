@@ -4,10 +4,10 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int seqId;
-    private final HashMap<Integer, Task> tasks; //#ASK@BOBA final ?
-    private final HashMap<Integer, SubTask> subtasks; //#ASK@BOBA final ?
-    private final HashMap<Integer, Epic> epics; //#ASK@BOBA final ?
-    private final HistoryManager taskHistory; //#ASK@BOBA final ?
+    private final HashMap<Integer, Task> tasks;
+    private final HashMap<Integer, SubTask> subtasks;
+    private final HashMap<Integer, Epic> epics;
+    private final HistoryManager taskHistory;
 
     public InMemoryTaskManager() {
         seqId = 0;
@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getHistory() {
+    public List<Task> getHistory() {     //#DEBUG@BOBA
         return taskHistory.getHistory();
     }
 
@@ -37,8 +37,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Integer insTask(Task task) {
         seqId++;
-        task.setId(seqId);
-        tasks.put(seqId, task);
+        if (tasks.containsKey(task.getId())) {
+            Task taskNew = new Task(task);
+            taskNew.setId(seqId);
+            tasks.put(seqId, taskNew);
+        } else {
+            task.setId(seqId);
+            tasks.put(seqId, task);
+        }
         return seqId;
     }
 
@@ -97,8 +103,15 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         seqId++;
-        subTask.setId(seqId);
-        subtasks.put(seqId, subTask);
+        if (subtasks.containsKey(subTask.getId())) {
+            SubTask subTaskNew = new SubTask(subTask);
+            subTaskNew.setId(seqId);
+            subtasks.put(seqId, subTaskNew);
+        } else {
+            subTask.setId(seqId);
+            subtasks.put(seqId, subTask);
+        }
+
         epic.insSubTask(seqId);
         updateEpicStatus(epic);
         return seqId;
@@ -154,8 +167,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Integer insEpic(Epic epic) {
         seqId++;
-        epic.setId(seqId);
-        epics.put(seqId, epic);
+        if (epics.containsKey(epic.getId())) {
+            Epic epicNew = new Epic(epic);
+            epicNew.setId(seqId);
+            epics.put(seqId, epicNew);
+        } else {
+            epic.setId(seqId);
+            epics.put(seqId, epic);
+        }
         return seqId;
     }
 
