@@ -8,6 +8,11 @@ public class Epic extends Task{
         subTaskIds = new ArrayList<>();
     }
 
+    public Epic(Epic epic) {
+        super (epic);
+        this.subTaskIds = epic.subTaskIds;
+    }
+
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
@@ -31,12 +36,12 @@ public class Epic extends Task{
     }
 
     public void insSubTask(Integer id) {
-        subTaskIds.add(id);
+        if (id != this.id) {
+            subTaskIds.add(id);
+        }
     }
 
-    public void removeSubTask(Integer id) {
-        subTaskIds.remove(id);
-    }
+    public void removeSubTask(Integer id) { subTaskIds.remove(id); }
 
     public void removeAllSubTask() {
         subTaskIds.clear();

@@ -49,27 +49,33 @@ public class Main {
     static void printAll(TaskManager tm, String caption) {
         System.out.println(caption);
         if (tm.getTasks().isEmpty()) {
-            System.out.println("  Tasks " + tm.getTasks());
+            System.out.println("  Tasks empty");
         } else {
             for (Task task : tm.getTasks()) {
                 System.out.println("  "+task);
             }
         }
-        if (tm.getSubTasks().isEmpty()) {
-            System.out.println("  SubTasks " + tm.getSubTasks());
-        } else {
-            for (SubTask subTask : tm.getSubTasks()) {
-                System.out.println("  "+subTask);
-            }
-        }
         if (tm.getEpics().isEmpty()) {
-            System.out.println("  Epics " + tm.getEpics());
+            System.out.println("  Epics empty");
         } else {
-            for (Epic epic : tm.getEpics()) {
+            for (Task epic : tm.getEpics()) {
                 System.out.println("  "+epic);
             }
         }
-        System.out.println("  History " + tm.getHistory()); //#DEBUG@BOBA
+        if (tm.getSubTasks().isEmpty()) {
+            System.out.println("  SubTasks empty");
+        } else {
+            for (Task subTask : tm.getSubTasks()) {
+                System.out.println("  "+subTask);
+            }
+        }
+        if (tm.getHistory().isEmpty()) {
+            System.out.println("  History empty");
+        } else {
+            for (Task task : tm.getHistory()) {
+                System.out.println("  History " + task);
+            }
+        }
     }
 
     static void printNotUpdated(Task task) {

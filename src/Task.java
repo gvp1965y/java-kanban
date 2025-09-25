@@ -12,6 +12,13 @@ public class Task {
         this.status = status;
     }
 
+    public Task(Task task) {     //#ASK@BOBA:  clone
+        this.id = task.id;
+        this.name = task.name;
+        this.description = task.description;
+        this.status = task.status;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -35,25 +42,15 @@ public class Task {
                 + "}";
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
     public void setDescription(String description) {
         if (description == null || description.isEmpty()) {
@@ -63,12 +60,7 @@ public class Task {
         }
     }
 
-    public TaskStatus getStatus() {
-        return status;
-    }
+    public TaskStatus getStatus() { return status; }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
+    public void setStatus(TaskStatus status) { this.status = status; }
 }

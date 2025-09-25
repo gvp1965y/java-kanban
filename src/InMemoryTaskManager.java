@@ -7,22 +7,20 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> tasks; //#ASK@BOBA final ?
     private final HashMap<Integer, SubTask> subtasks; //#ASK@BOBA final ?
     private final HashMap<Integer, Epic> epics; //#ASK@BOBA final ?
-    private final InMemoryHistoryManager taskHistory; //#ASK@BOBA final ?
+    private final HistoryManager taskHistory; //#ASK@BOBA final ?
 
     public InMemoryTaskManager() {
         seqId = 0;
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
-        taskHistory = new InMemoryHistoryManager();
+        taskHistory = Managers.getDefaultHistory();
     }
 
-    //#DEBUG@BOBA -->>
     @Override
     public List<Task> getHistory() {
         return taskHistory.getHistory();
     }
-    //#DEBUG@BOBA --<<
 
     @Override
     public Task getTask(int id) {
@@ -55,14 +53,10 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void delTask(int id) {
-        tasks.remove(id);
-    }
+    public void delTask(int id) { tasks.remove(id); }
 
     @Override
-    public void delTasks() {
-        tasks.clear();
-    }
+    public void delTasks() { tasks.clear(); }
 
     @Override
     public SubTask getSubTask(int id) {

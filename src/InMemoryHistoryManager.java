@@ -1,25 +1,22 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    int maxHistory = 10;
-    private final List<Task> taskHistory; //#ASK@BOBA final ?
+    int TASK_HISTORY_MAX = 10;            //#ASK@BOBA public static final
+    private final List<Task> taskHistory; //#ASK@BOBA final
 
     public InMemoryHistoryManager() {
-        taskHistory = new ArrayList<>();
+        taskHistory = new LinkedList<>(); //#ASK@BOBA LinkedList vs ArrayList
     }
 
     @Override
     public void add(Task task) {
-        if (taskHistory.size() == maxHistory) {
+        if (taskHistory.size() == TASK_HISTORY_MAX) {
             taskHistory.removeFirst();
         }
-        taskHistory.add(task);
+        taskHistory.add(new Task(task));    //#ASK@BOBA:  history by clone
     }
 
     @Override
-    public List<Task> getHistory() {
-        return taskHistory;
-    }
-
+    public List<Task> getHistory() { return taskHistory; }
 }
