@@ -1,13 +1,14 @@
 //#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы
 //#DEMO@BOBA: taskUpdated; subTaskUpdated; epicUpdated : успешное обновление элемента
 
+import tasks.*;
+import manager.*;
+
 public class Main {
 
     public static void main(String[] args) {
-
         System.out.println("Поехали!");
 
-        //TaskManager tm = new InMemoryTaskManager();
         TaskManager tm = Managers.getDefault();
         printAll(tm, "После создания --------------");
 
@@ -52,6 +53,10 @@ public class Main {
 
     static void printAll(TaskManager tm, String caption) {
         System.out.println(caption);
+        if (tm == null) {
+            System.out.println("  TaskManager empty");
+            return;
+        }
         if (tm.getTasks().isEmpty()) {
             System.out.println("  Tasks empty");
         } else {

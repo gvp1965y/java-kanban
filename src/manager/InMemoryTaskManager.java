@@ -1,3 +1,6 @@
+package manager;
+
+import tasks.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +22,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getHistory() { return taskHistory.getHistory(); }      //#DEBUG@BOBA
+    public List<Task> getHistory() { return taskHistory.getHistory(); }
 
     @Override
     public Task getTask(int id) {
@@ -33,6 +36,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer insTask(Task task) {
+        if (task == null) { return null; }
+
         seqId++;
         if (tasks.containsKey(task.getId())) {
             Task taskNew = new Task(task);
@@ -47,6 +52,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean updTask(Task task) {
+        if (task == null) { return false; }
         int taskId = task.getId();
         if (!tasks.containsKey(taskId)) {
             return false;
@@ -93,10 +99,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer insSubTask(SubTask subTask) {
+        if (subTask == null) { return null; }
+
         Epic epic = getEpic(subTask.getEpicId());
-        if (epic == null) {
-            return null;
-        }
+        if (epic == null) { return null; }
         seqId++;
         if (subtasks.containsKey(subTask.getId())) {
             SubTask subTaskNew = new SubTask(subTask);
@@ -106,7 +112,6 @@ public class InMemoryTaskManager implements TaskManager {
             subTask.setId(seqId);
             subtasks.put(seqId, subTask);
         }
-
         epic.insSubTask(seqId);
         updateEpicStatus(epic);
         return seqId;
@@ -114,6 +119,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean updSubTask(SubTask subTask) {
+        if (subTask == null) { return false; }
+
         int subTaskId = subTask.getId();
         int epicId = subTask.getEpicId();
         if (!subtasks.containsKey(subTaskId)) {
@@ -159,6 +166,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer insEpic(Epic epic) {
+        if (epic == null) { return null; }
+
         seqId++;
         if (epics.containsKey(epic.getId())) {
             Epic epicNew = new Epic(epic);
@@ -173,6 +182,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean updEpic(Epic epic) {
+        if (epic == null) { return false; }
+
         int epicId = epic.getId();
         if (!epics.containsKey(epicId)) {
             return false;
@@ -210,10 +221,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     void updateEpicStatus(Epic epic) {
+        if (epic == null) { return; }
+
         int subtaskCount = epic.getSubTaskIds().size();
         int statusNew = 0;
         int statusDone = 0;
-        for (Integer i : epic.getSubTaskIds()) {  //#ASK@BOBA if-switch
+        for (Integer i : epic.getSubTaskIds()) {  //#ASK@BOBA: if-switch
             if (getSubTask(i).getStatus() == TaskStatus.NEW) {
                 statusNew++;
             } else if (getSubTask(i).getStatus() == TaskStatus.DONE) {

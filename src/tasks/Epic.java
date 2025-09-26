@@ -1,3 +1,5 @@
+package tasks;
+
 import java.util.ArrayList;
 
 public class Epic extends Task{
@@ -31,9 +33,7 @@ public class Epic extends Task{
                 + "}";
     }
 
-    public ArrayList<Integer> getSubTaskIds() {
-        return subTaskIds;
-    }
+    public ArrayList<Integer> getSubTaskIds() { return subTaskIds; }
 
     public void insSubTask(int id) {
         if (id != this.id) {

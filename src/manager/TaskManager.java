@@ -1,8 +1,11 @@
+package manager;
+
+import tasks.*;
 import java.util.List;
 
 public interface TaskManager {
 
-    List<Task> getHistory(); //#DEBUG@BOBA
+    List<Task> getHistory();
 
     Task getTask(int id);
 
