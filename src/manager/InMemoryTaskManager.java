@@ -22,7 +22,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getHistory() { return taskHistory.getHistory(); }
+    public List<Task> getHistory() {
+        return taskHistory.getHistory();
+    }
 
     @Override
     public Task getTask(int id) {
@@ -32,11 +34,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getTasks() { return new ArrayList<>(tasks.values()); }
+    public List<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
+    }
 
     @Override
     public Integer insTask(Task task) {
-        if (task == null) { return null; }
+        if (task == null) {
+            return null;
+        }
 
         seqId++;
         if (tasks.containsKey(task.getId())) {
@@ -52,7 +58,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean updTask(Task task) {
-        if (task == null) { return false; }
+        if (task == null) {
+            return false;
+        }
         int taskId = task.getId();
         if (!tasks.containsKey(taskId)) {
             return false;
@@ -101,14 +109,20 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<SubTask> getSubTasks() { return new ArrayList<>(subtasks.values()); }
+    public List<SubTask> getSubTasks() {
+        return new ArrayList<>(subtasks.values());
+    }
 
     @Override
     public Integer insSubTask(SubTask subTask) {
-        if (subTask == null) { return null; }
+        if (subTask == null) {
+            return null;
+        }
 
         Epic epic = getEpic(subTask.getEpicId());
-        if (epic == null) { return null; }
+        if (epic == null) {
+            return null;
+        }
         seqId++;
         if (subtasks.containsKey(subTask.getId())) {
             SubTask subTaskNew = new SubTask(subTask);
@@ -170,11 +184,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Epic> getEpics() { return new ArrayList<>(epics.values()); }
+    public List<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
+    }
 
     @Override
     public Integer insEpic(Epic epic) {
-        if (epic == null) { return null; }
+        if (epic == null) {
+            return null;
+        }
 
         seqId++;
         if (epics.containsKey(epic.getId())) {
@@ -190,7 +208,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean updEpic(Epic epic) {
-        if (epic == null) { return false; }
+        if (epic == null) {
+            return false;
+        }
 
         int epicId = epic.getId();
         if (!epics.containsKey(epicId)) {

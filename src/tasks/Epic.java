@@ -33,7 +33,9 @@ public class Epic extends Task{
                 + "}";
     }
 
-    public ArrayList<Integer> getSubTaskIds() { return subTaskIds; }
+    public ArrayList<Integer> getSubTaskIds() {
+        return subTaskIds;
+    }
 
     public void insSubTask(int id) {
         if (id != this.id) {
@@ -41,7 +43,9 @@ public class Epic extends Task{
         }
     }
 
-    public void removeSubTask(Integer id) { subTaskIds.remove(id); }
+    public void removeSubTask(Integer id) {
+        subTaskIds.remove(id);
+    }
 
     public void removeAllSubTask() {
         subTaskIds.clear();
