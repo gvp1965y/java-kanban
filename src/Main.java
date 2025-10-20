@@ -1,4 +1,4 @@
-//#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы (ерунда какая то)
+//#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы
 //#DEMO@BOBA: taskUpdated; subTaskUpdated; epicUpdated : успешное обновление элемента
 
 import tasks.*;
