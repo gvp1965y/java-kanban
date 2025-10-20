@@ -29,19 +29,13 @@ public class Main {
 
         task.setStatus(TaskStatus.IN_PROGRESS);
         boolean taskUpdated = tm.updTask(task);
-        if (!taskUpdated) {
-            printNotUpdated(task);
-        }
+        if (!taskUpdated) { printNotUpdated(task); }
         subTask.setStatus(TaskStatus.IN_PROGRESS);
         boolean subTaskUpdated = tm.updSubTask(subTask);
-        if (!subTaskUpdated) {
-            printNotUpdated(subTask);
-        }
+        if (!subTaskUpdated) { printNotUpdated(subTask); }
         epic.setStatus(TaskStatus.NEW);
         boolean epicUpdated = tm.updEpic(epic);
-        if (!epicUpdated) {
-            printNotUpdated(epic);
-        }
+        if (!epicUpdated) { printNotUpdated(epic); }
         printAll(tm, "После изменения Статусов ------------");
 
         tm.delTask(taskId);
@@ -67,21 +61,21 @@ public class Main {
             System.out.println("  Tasks empty");
         } else {
             for (Task task : tm.getTasks()) {
-                System.out.println("  " + task);
+                System.out.println("  "+task);
             }
         }
         if (tm.getEpics().isEmpty()) {
             System.out.println("  Epics empty");
         } else {
             for (Task epic : tm.getEpics()) {
-                System.out.println("  " + epic);
+                System.out.println("  "+epic);
             }
         }
         if (tm.getSubTasks().isEmpty()) {
             System.out.println("  SubTasks empty");
         } else {
             for (Task subTask : tm.getSubTasks()) {
-                System.out.println("  " + subTask);
+                System.out.println("  "+subTask);
             }
         }
         if (tm.getHistory().isEmpty()) {

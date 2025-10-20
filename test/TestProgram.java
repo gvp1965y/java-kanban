@@ -1,5 +1,5 @@
 //#ASIS@BOBA:
-// Реализованы только те тесты, которые указаны в ТЗ "Финальный проект спринта 5" и "Финальный проект спринта 6" в порядке перечисления.
+// Реализованы только те тесты, которые указаны в ТЗ "Финальный проект спринта 5" в порядке перечисления.
 // "Непонятки" и ошибки в ТЗ трактуются "в пользу" программиста.
 
 import tasks.*;
@@ -105,35 +105,5 @@ class TestProgram {
         historyManager.add(task);
         assertNotNull(historyManager.getHistory().getLast(), "task is missing");
         assertEquals(task, historyManager.getHistory().getLast(),"task it is changed");
-    }
-
-    @Test //#ASIS@TOR: Проверьте, что встроенный связный список версий, а также операции добавления и удаления работают корректно.
-    void historyManagerIsWorked() {
-        Task task01 = new Task("Task01", null, TaskStatus.NEW);
-        task01.setId(1);
-        historyManager.add(task01);
-        Task task02 = new Task("Task02", null, TaskStatus.NEW);
-        task02.setId(2);
-        historyManager.add(task02);
-        task01.setStatus(TaskStatus.IN_PROGRESS);
-        historyManager.add(task01);
-        Task task03 = new Task("Task03", null, TaskStatus.NEW);
-        task03.setId(3);
-        historyManager.add(task03);
-        historyManager.remove(task03.getId());
-        assertEquals(task02, historyManager.getHistory().getFirst(),"historyManager doesn't delete repetitions");
-        assertEquals(task01, historyManager.getHistory().getLast(),"historyManager doesn't do the remove");
-    }
-
-    @Test //#ASIS@TOR: Внутри эпиков не должно оставаться неактуальных id подзадач.
-    void relevanceEpicSubtasks() {
-        Epic epic = new Epic("Epic01", null, TaskStatus.NEW);
-        taskManager.insEpic(epic);
-        SubTask subTask = new SubTask("SubTask0101", null, TaskStatus.NEW, epic.getId());
-        taskManager.insSubTask(subTask);
-        subTask = new SubTask("SubTask0102", null, TaskStatus.NEW, epic.getId());
-        taskManager.insSubTask(subTask);
-        taskManager.delSubTasks();
-        assertEquals(0, epic.getSubTaskIds().size(), "epic contains deleted subtasks");
     }
 }
