@@ -139,7 +139,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public boolean updSubTask(SubTask subTask) {
-        if (subTask == null) { return false; }
+        if (subTask == null) {
+            return false;
+        }
 
         int subTaskId = subTask.getId();
         int epicId = subTask.getEpicId();
@@ -252,7 +254,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     void updateEpicStatus(Epic epic) {
-        if (epic == null) { return; }
+        if (epic == null) {
+            return;
+        }
 
         int subtaskCount = epic.getSubTaskIds().size();
         int statusNew = 0;
