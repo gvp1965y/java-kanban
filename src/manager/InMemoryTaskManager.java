@@ -242,7 +242,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void delEpics() {
         delSubTasks();
         taskHistory.removeNodes(epics.keySet());
-        epics.clear();                   //#TODO@BOBA
+        epics.clear();
     }
 
     @Override
