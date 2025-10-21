@@ -47,16 +47,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void setTail(Task task) {
-        Node node;                 //#ASK@BOBA: clone task
+        Node node = new Node(null, task, null); //#ASK@BOBA: clone task
         if (nodeMap.isEmpty()) {
-            node = new Node(null, task, null);
-            nodeMap.put(task.getId(), node);
             head = node;
         } else {
-            node = new Node(tail, task, null);
-            nodeMap.put(task.getId(), node);
+            node.prev = tail;
             node.prev.next = node;
         }
+        nodeMap.put(task.getId(), node);
         tail = node;
     }
 
