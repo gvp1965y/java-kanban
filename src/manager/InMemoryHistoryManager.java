@@ -1,7 +1,6 @@
 package manager;
 
 import tasks.Task;
-
 import java.util.Set;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -48,17 +47,17 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void setTail(Task task) {
+        Node node;                 //#ASK@BOBA: clone task
         if (nodeMap.isEmpty()) {
-            Node node = new Node(null, task, null); //#ASK@BOBA: clone task
+            node = new Node(null, task, null);
             nodeMap.put(task.getId(), node);
             head = node;
-            tail = node;
         } else {
-            Node node = new Node(tail, task, null); //#ASK@BOBA: clone task
+            node = new Node(tail, task, null);
             nodeMap.put(task.getId(), node);
             node.prev.next = node;
-            tail = node;
         }
+        tail = node;
     }
 
     private List<Task> getTasks() {

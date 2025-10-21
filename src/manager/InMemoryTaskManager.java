@@ -119,7 +119,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
 
-        Epic epic = getEpic(subTask.getEpicId());
+        Epic epic = epics.get(subTask.getEpicId());
         if (epic == null) {
             return null;
         }
@@ -164,7 +164,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subtasks.remove(id);
         taskHistory.remove(id);
-        getEpic(subTask.getEpicId()).removeSubTask(id);
+        epics.get(subTask.getEpicId()).removeSubTask(id);
         updateEpicStatus(subTask.getEpicId());
     }
 
@@ -226,7 +226,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void delEpic(int id) {
-        Epic epic = getEpic(id);
+        Epic epic = epics.get(id);
         if (epic == null) {
             return;
         }
@@ -250,7 +250,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (!epics.containsKey(id)) {
             return;
         }
-        updateEpicStatus(getEpic(id));
+        updateEpicStatus(epics.get(id));
     }
 
     void updateEpicStatus(Epic epic) {
@@ -262,9 +262,10 @@ public class InMemoryTaskManager implements TaskManager {
         int statusNew = 0;
         int statusDone = 0;
         for (Integer i : epic.getSubTaskIds()) {  //#ASK@BOBA: if-switch
-            if (getSubTask(i).getStatus() == TaskStatus.NEW) {
+            TaskStatus subTaskStatus = subtasks.get(i).getStatus();
+            if (subTaskStatus == TaskStatus.NEW) {
                 statusNew++;
-            } else if (getSubTask(i).getStatus() == TaskStatus.DONE) {
+            } else if (subTaskStatus == TaskStatus.DONE) {
                 statusDone++;
             }
         }
