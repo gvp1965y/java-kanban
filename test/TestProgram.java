@@ -121,6 +121,7 @@ class TestProgram {
         task03.setId(3);
         historyManager.add(task03);
         historyManager.remove(task03.getId());
+        assertEquals(2, historyManager.getHistory().size(),"historyManager unnecessary entries");
         assertEquals(task02, historyManager.getHistory().getFirst(),"historyManager doesn't delete repetitions");
         assertEquals(task01, historyManager.getHistory().getLast(),"historyManager doesn't do the remove");
     }
