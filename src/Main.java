@@ -44,6 +44,11 @@ public class Main {
         }
         printAll(tm, "После изменения Статусов ------------");
 
+        tm.getTask(taskId);
+        tm.getSubTask(subTaskId);
+        tm.getEpic(epicId);
+        printAll(tm, "После просмотров ------------");
+
         tm.delTask(taskId);
         tm.delSubTask(subTaskId);
         tm.delEpic(epicId);
