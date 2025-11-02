@@ -4,7 +4,7 @@ import tasks.Task;
 import tasks.Epic;
 import tasks.SubTask;
 
-public class FileBackedTaskManager extends InMemoryTaskManager {
+public class InFileTaskManager extends InMemoryTaskManager {
 
     void save() {
         //#TODO@BOBA
