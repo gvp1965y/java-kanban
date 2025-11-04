@@ -14,17 +14,13 @@ public class Main {
 
         Task task = new Task("task01", null, TaskStatus.NEW);
         int taskId = tm.insTask(task);
-        tm.insTask(task);
         tm.insTask(new Task("task02", null, TaskStatus.IN_PROGRESS));
         Epic epic = new Epic("epic04", null, TaskStatus.NEW);
         int epicId = tm.insEpic(epic);
-        tm.insEpic(epic);
         SubTask subTask = new SubTask("subTask0401", null, TaskStatus.NEW, epicId);
         int subTaskId = tm.insSubTask(subTask);
-        tm.insSubTask(subTask);
         tm.insSubTask(new SubTask("subTask0402", null, TaskStatus.DONE, epicId));
         tm.insSubTask(new SubTask("subTask0501", null, TaskStatus.DONE, tm.insEpic(new Epic("epic05", null, TaskStatus.NEW))));
-        tm.insEpic(epic);
         printAll(tm, "После вставки --------------");
 
         task.setStatus(TaskStatus.IN_PROGRESS);
@@ -48,17 +44,17 @@ public class Main {
         tm.getSubTask(subTaskId);
         tm.getEpic(epicId);
         printAll(tm, "После просмотров ------------");
+/*
+        tm.delTask(taskId);
+        tm.delSubTask(subTaskId);
+        tm.delEpic(epicId);
+        printAll(tm, "После удаления ------------");
 
-        //tm.delTask(taskId);
-        //tm.delSubTask(subTaskId);
-        //tm.delEpic(epicId);
-        //printAll(tm, "После удаления ------------");
-
-        //tm.delTasks();
-        //tm.delEpics();
-        //tm.delSubTasks();
-        //printAll(tm, "После удаления всех ------------");
-
+        tm.delTasks();
+        tm.delEpics();
+        tm.delSubTasks();
+        printAll(tm, "После удаления всех ------------");
+*/
         System.out.println("Приехали!");
     }
 

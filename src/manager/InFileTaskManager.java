@@ -36,7 +36,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
             return;
         }
         try (BufferedReader buff = new BufferedReader(new FileReader(path.toFile()))) {
-            buff.readLine(); //#ASK@BOBA: firstRow -> String[] fieldNames buff.readLine().split(csvFieldSeparator);
+            buff.readLine(); //#ASK@BOBA: firstRow
             String row;
             while ((row = buff.readLine()) != null) {
                 if (row.isEmpty()) {
@@ -74,9 +74,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
             Files.createFile(path);
             BufferedWriter buff = new BufferedWriter(new FileWriter(path.toFile()));
             buff.write(ManagerFileCSVHelper.HEADER);
-            buff.close();
 
-            buff = new BufferedWriter(new FileWriter(path.toFile(), true));
             Collection<Task> taskValues = tasks.values();
             for (Task task : taskValues) {
                 buff.write(toString(task));
