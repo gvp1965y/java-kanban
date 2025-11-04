@@ -1,11 +1,8 @@
-//#ASK@BOBA csv_format: id,type,name,status,description,epic
-
 package manager;
 
 import tasks.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +10,6 @@ import java.util.Collection;
 
 public class InFileTaskManager extends InMemoryTaskManager {
     private final Path path;
-    private final String csvColumnsSeparator = ",";
 
     public InFileTaskManager(String pathName) {
         //#TODO@BOBA
@@ -71,37 +67,40 @@ public class InFileTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private void saveToCSV(Task task) throws IOException {
-        //#TODO@BOBA
-        String s = toString(task);
-    }
-
     private void save() {
         //#ALERT@BOBA: recording sequence is important, - subtasks only after epics
         try {
+            Files.deleteIfExists(path);
+            Files.createFile(path);
+            BufferedWriter buff = new BufferedWriter(new FileWriter(path.toFile()));
+            buff.write(ManagerFileCSVHelper.HEADER);
+            buff.close();
+
+            buff = new BufferedWriter(new FileWriter(path.toFile(), true));
             Collection<Task> taskValues = tasks.values();
             for (Task task : taskValues) {
-                saveToCSV(task);
+                buff.write(toString(task));
             }
             Collection<Epic> epicValues = epics.values();
             for (Task task : epicValues) { //#ASK@BOBA: Epic epic
-                saveToCSV(task);
+                buff.write(toString(task));
             }
             Collection<SubTask> subTaskValues = subtasks.values();
             for (Task task : subTaskValues) { //#ASK@BOBA: SubTask subTask
-                saveToCSV(task);
+                buff.write(toString(task));
             }
+            buff.close();
         } catch (IOException e) {
             throw new ManagerSaveException("Error save to file: " + path.toFile());
         }
     }
 
     private Task fromString(String value) {
-        return FileTaskManager.fromStringCSV(csvColumnsSeparator, value);
+        return ManagerFileCSVHelper.fromString(value);
     }
 
     private String toString(Task task) {
-        return FileTaskManager.toStringCSV(csvColumnsSeparator, task);
+        return ManagerFileCSVHelper.toString(task);
     }
 
     @Override

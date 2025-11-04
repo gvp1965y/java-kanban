@@ -3,7 +3,6 @@
 
 import tasks.*;
 import manager.*;
-import java.io.IOException;
 
 public class Main {
 
@@ -50,15 +49,15 @@ public class Main {
         tm.getEpic(epicId);
         printAll(tm, "После просмотров ------------");
 
-        tm.delTask(taskId);
-        tm.delSubTask(subTaskId);
-        tm.delEpic(epicId);
-        printAll(tm, "После удаления ------------");
+        //tm.delTask(taskId);
+        //tm.delSubTask(subTaskId);
+        //tm.delEpic(epicId);
+        //printAll(tm, "После удаления ------------");
 
-        tm.delTasks();
-        tm.delEpics();
-        tm.delSubTasks();
-        printAll(tm, "После удаления всех ------------");
+        //tm.delTasks();
+        //tm.delEpics();
+        //tm.delSubTasks();
+        //printAll(tm, "После удаления всех ------------");
 
         System.out.println("Приехали!");
     }

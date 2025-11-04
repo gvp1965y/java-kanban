@@ -20,7 +20,7 @@ class TestProgram{
     public TaskManager taskManager;
 
     @BeforeEach                           //#ASK@BOBA: before all ????
-    void initTaskManagers() throws IOException {
+    void initTaskManagers() {
         taskManager = Managers.getDefault();
         historyManager = Managers.getDefaultHistory();
     }
@@ -51,7 +51,7 @@ class TestProgram{
         assertEquals(subTask, subTaskClone, "SubTask class instances with the same ID are not equal");
     }
 
-    @Test //#ASIS@TOR: проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
+    @Test //#ASIS@TOR: проверьте, что TaskManager действительно добавляет задачи разного типа и может найти их по id
     void taskManagerIsWorked() {
         final Task task = new Task("Task01", null, TaskStatus.NEW);
         final int taskId = taskManager.insTask(task);
