@@ -3,8 +3,7 @@ package manager;
 public class Managers {
 
     public static TaskManager getDefault() {
-        //#DEV@BOBA return new InMemoryTaskManager();
-        return new InFileTaskManager();
+        return InFileTaskManager.LoadFromFile("resources/tasks.csv");
     }
 
     public static HistoryManager getDefaultHistory() {

@@ -2,20 +2,25 @@
 // Реализованы только те тесты, которые указаны в ТЗ "Финальный проект спринта 5" и "Финальный проект спринта 6" в порядке перечисления.
 // "Непонятки" и ошибки в ТЗ трактуются "в пользу" программиста.
 
-import tasks.*;
-import manager.*;
+import manager.HistoryManager;
+import manager.Managers;
+import manager.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+import tasks.TaskStatus;
+import java.io.IOException;
 
-class TestProgram {
+import static org.junit.jupiter.api.Assertions.*;
+
+class TestProgram{
     public HistoryManager historyManager;
     public TaskManager taskManager;
 
     @BeforeEach                           //#ASK@BOBA: before all ????
-    void initTaskManagers() {
+    void initTaskManagers() throws IOException {
         taskManager = Managers.getDefault();
         historyManager = Managers.getDefaultHistory();
     }

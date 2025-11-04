@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int seqId;
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, SubTask> subtasks;
-    private final Map<Integer, Epic> epics;
-    private final HistoryManager taskHistory;
+    protected int seqId;
+    protected final Map<Integer, Task> tasks;
+    protected final Map<Integer, SubTask> subtasks;
+    protected final Map<Integer, Epic> epics;
+    protected final HistoryManager taskHistory;
 
     public InMemoryTaskManager() {
         seqId = 0;
