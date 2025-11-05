@@ -1,6 +1,7 @@
 //#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы
 //#DEMO@BOBA: taskUpdated; subTaskUpdated; epicUpdated : успешное обновление элемента
-//#DEMO@BOBA: InFileTaskManager tm = InFileTaskManager.LoadFromFile("otherTasks.csv");
+//#DEMO@BOBA: tmNew = InFileTaskManager.LoadFromFile(ManagerFileCSVHelper.getDefaultFile()) : новый управляющий для файла
+//#ASK@BOBA: taskHistory
 
 import tasks.*;
 import manager.*;
@@ -40,24 +41,27 @@ public class Main {
         if (!epicUpdated) {
             printNotUpdated(epic);
         }
-        printAll(tm, "После изменения Статусов ------------");
+        printAll(tm, "После изменения Статусов -----------");
 
         tm.getTask(taskId);
         tm.getSubTask(subTaskId);
         tm.getEpic(epicId);
         printAll(tm, "После просмотров ------------");
 
-        tm.delTask(taskId);
-        tm.delSubTask(subTaskId);
-        tm.delEpic(epicId);
-        printAll(tm, "После удаления ------------");
+        InFileTaskManager tmNew = InFileTaskManager.LoadFromFile(ManagerFileCSVHelper.getDefaultFile());
+        System.out.println("\n===== Новый управляющий для файла: " + ManagerFileCSVHelper.getDefaultFile() + "=====\n");
 
-//        tm.delTasks();
-//        tm.delEpics();
-//        tm.delSubTasks();
-//        printAll(tm, "После удаления всех ------------");
-//
-//        ManagerFileCSVHelper.deleteDefaultFile();
+        tmNew.delTask(taskId);
+        tmNew.delSubTask(subTaskId);
+        tmNew.delEpic(epicId);
+        printAll(tmNew, "После удаления ------------");
+
+        tmNew.delTasks();
+        tmNew.delEpics();
+        tmNew.delSubTasks();
+        printAll(tmNew, "После удаления всех ------------");
+
+        ManagerFileCSVHelper.deleteDefaultFile();
         System.out.println("Приехали!");
     }
 

@@ -28,18 +28,18 @@ class TestProgram{
     public TaskManager taskManager;
     public Path pathTemp;
 
-    @BeforeEach                           //#ASK@BOBA: before all ????
+    @BeforeEach
     void initTaskManagers() throws IOException {
-        // taskManager = Managers.getDefault();
         String filePrefix = "sprint_7-solution-in-file-manager";
         String fileSuffix = ".csv";
         pathTemp = Files.createTempFile(filePrefix, fileSuffix);
-        taskManager = InFileTaskManager.LoadFromFile(String.valueOf(pathTemp.toAbsolutePath()));
+        taskManager = InFileTaskManager.LoadFromFile(String.valueOf(pathTemp.toAbsolutePath()));  // IN_FILE
+        //#DO@BOBA taskManager = Managers.getDefault();                                           // IN_MEMORY
         historyManager = Managers.getDefaultHistory();
     }
 
     @AfterEach
-    void clearing() throws IOException {
+    void clearingFile() throws IOException {
         Files.deleteIfExists(pathTemp);
     }
 
@@ -49,29 +49,31 @@ class TestProgram{
         assertNotNull(historyManager, "historyManager has not initialized");
     }
 
-    @Test //#ASIS@TOR: проверьте, что экземпляры класса Task равны друг другу, если равен их id
+    @Test //#ASIS@TOR: *only IN_FILE* Ещё проверьте работу сохранения и восстановления менеджера из файла (сериализацию)
     void validManagerFile() throws IOException {
-        List<String> file2Lines = new ArrayList<>();
-        file2Lines.add("id,type,name,status,description,epic");
-        file2Lines.add("1,TASK,Task1,NEW,Description task1,");
-        file2Lines.add("2,TASK,Task2,IN_PROGRESS,Description task2,");
-        file2Lines.add("3,EPIC,Epic3,DONE,Description epic3,");
-        file2Lines.add("4,SUBTASK,Sub Task4,DONE,Description sub task4,3");
-
         taskManager.insTask(new Task("Task1", "Description task1", TaskStatus.NEW));
         taskManager.insTask(new Task("Task2", "Description task2", TaskStatus.IN_PROGRESS));
-        Epic epic = new Epic("Epic3", "Description epic3", TaskStatus.DONE);
-        int epicId = taskManager.insEpic(epic);
-        taskManager.insSubTask(new SubTask("Sub Task4", "Description sub task4", TaskStatus.DONE, epicId));
+        final int epicId = taskManager.insEpic(new Epic("Epic3", "Description epic3", TaskStatus.DONE));
+        final int subtaskId = taskManager.insSubTask(new SubTask("Sub Task4", "Description sub task4", TaskStatus.DONE, epicId));
 
-        file2Lines.remove(2);
-        taskManager.delTask(2);
+        TaskManager taskManagerNew = InFileTaskManager.LoadFromFile(String.valueOf(pathTemp.toAbsolutePath()));
+        taskManagerNew.delTask(2);
+        SubTask subtask = taskManagerNew.getSubTask(subtaskId);
+        subtask.setStatus(TaskStatus.IN_PROGRESS);
+        taskManagerNew.updSubTask(subtask);
+        final List<String> fileLines = Files.readAllLines(pathTemp);
 
-        List<String> file1Lines = Files.readAllLines(pathTemp);
+        List<String> expectedLines = new ArrayList<>();
+        expectedLines.add("id,type,name,status,description,epic");
+        expectedLines.add("1,TASK,Task1,NEW,Description task1,");
+        expectedLines.add("2,TASK,Task2,IN_PROGRESS,Description task2,");
+        expectedLines.add("3,EPIC,Epic3,IN_PROGRESS,Description epic3,");
+        expectedLines.add("4,SUBTASK,Sub Task4,IN_PROGRESS,Description sub task4,3");
+        expectedLines.remove(2);
 
-        assertEquals(file1Lines.size(), file2Lines.size(), "File sizes differ.");
-        for (int i = 0; i < file1Lines.size(); i++) {
-            assertEquals(file2Lines.get(i), file1Lines.get(i), "Line " + (i + 1) + " differs.");
+        assertEquals(expectedLines.size(), fileLines.size(), "File sizes differ.");
+        for (int i = 0; i < fileLines.size(); i++) {
+            assertEquals(expectedLines.get(i), fileLines.get(i), "Line " + (i + 1) + " differs.");
         }
     }
 

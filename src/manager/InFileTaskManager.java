@@ -73,6 +73,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
                         break;
                     case SUBTASK:
                         subtasks.put(id, (SubTask) task);
+                        getEpic(getSubTask(id).getEpicId()).insSubTask(id);
                         break;
                     default:
                         break;
