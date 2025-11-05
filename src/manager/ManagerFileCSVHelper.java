@@ -1,4 +1,4 @@
-/* #ASIS@TOR: format csv-file
+/* #ASIS@TOR: format file
 id,type,name,status,description,epic
 1,TASK,Task1,NEW,Description task1,
 2,EPIC,Epic2,DONE,Description epic2,
@@ -8,18 +8,37 @@ id,type,name,status,description,epic
 package manager;
 
 import tasks.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ManagerFileCSVHelper {
 
-    public static final String FILENAME = "resources/tasks.csv";
+    public static final String FILENAME = "MainTasks.csv";
     public static final String HEADER = "id,type,name,status,description,epic\n";
     public static final String FIELD_SEPARATOR = ",";
     public static final String ROW_SEPARATOR = "\n";
 
     private ManagerFileCSVHelper() {
         throw new IllegalStateException("Utility class");
+    }
+
+    public static String getDefaultFile() {
+        return FILENAME;
+    }
+
+    public static void deleteDefaultFile() {
+        try {
+            Files.deleteIfExists(Paths.get(FILENAME));
+        } catch (IOException e) {
+            throw new ManagerFileException("Error delete file: " + FILENAME);
+        }
+
     }
 
     public static Task fromString(String row) {

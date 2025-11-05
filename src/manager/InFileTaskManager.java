@@ -4,6 +4,7 @@ import tasks.*;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -12,31 +13,44 @@ public class InFileTaskManager extends InMemoryTaskManager {
     private final Path path;
 
     public InFileTaskManager(String pathName) {
-        //#TODO@BOBA
         super();
         this.path = Paths.get(pathName);
     }
 
     public static InFileTaskManager LoadFromFile(String pathName) {
-        //#TODO@BOBA
-        InFileTaskManager tm = new InFileTaskManager(pathName);
         try {
-            tm.loadFromCSV();
+            InFileTaskManager tm = new InFileTaskManager(pathName);
+            if (tm.existsFile()) {
+                tm.loadFromCSV();
+            } else {
+                tm.createCSV();
+            }
             return tm;
-        } catch (IOException e) {
-            throw new ManagerLoadException("Error load from file: " + pathName);
+        } catch (InvalidPathException e) {
+            throw new ManagerFileException("Invalid path name: " + pathName);
         }
     }
 
-    private void loadFromCSV() throws IOException {
-        //#ASK@BOBA: readAllLines
-        //#TODO@BOBA
-        if (!Files.exists(path)) {
+    private boolean existsFile() {
+        return Files.exists(path);
+    }
+
+    private void createCSV() {
+        try {
             Files.createFile(path);
-            return;
+            BufferedWriter buff = new BufferedWriter(new FileWriter(path.toFile()));
+            buff.write(ManagerFileCSVHelper.HEADER);
+            buff.close();
+        } catch (IOException e) {
+            throw new ManagerFileException("Error create file: " + path.toFile());
         }
+    }
+
+    private void loadFromCSV() {
+        //#ASK@BOBA: readAllLines
+        //#ASK@BOBA: readLine() -> ManagerFileCSVHelper.ROW_SEPARATOR
         try (BufferedReader buff = new BufferedReader(new FileReader(path.toFile()))) {
-            buff.readLine(); //#ASK@BOBA: firstRow
+            buff.readLine(); //#ASK@BOBA: firstRow -> ManagerFileCSVHelper.HEADER
             String row;
             while ((row = buff.readLine()) != null) {
                 if (row.isEmpty()) {
@@ -64,10 +78,12 @@ public class InFileTaskManager extends InMemoryTaskManager {
                         break;
                 }
             }
+        } catch (IOException e) {
+            throw new ManagerFileException("Error load from file: " + path.toFile());
         }
     }
 
-    private void save() {
+    private void saveToCSV() {
         //#ALERT@BOBA: recording sequence is important, - subtasks only after epics
         try {
             Files.deleteIfExists(path);
@@ -89,8 +105,12 @@ public class InFileTaskManager extends InMemoryTaskManager {
             }
             buff.close();
         } catch (IOException e) {
-            throw new ManagerSaveException("Error save to file: " + path.toFile());
+            throw new ManagerFileException("Error save to file: " + path.toFile());
         }
+    }
+
+    private void save() {
+        saveToCSV();
     }
 
     private Task fromString(String value) {

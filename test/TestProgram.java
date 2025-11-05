@@ -3,31 +3,76 @@
 // "Непонятки" и ошибки в ТЗ трактуются "в пользу" программиста.
 
 import manager.HistoryManager;
+import manager.InFileTaskManager;
 import manager.Managers;
 import manager.TaskManager;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 import tasks.TaskStatus;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestProgram{
     public HistoryManager historyManager;
     public TaskManager taskManager;
+    public Path pathTemp;
 
     @BeforeEach                           //#ASK@BOBA: before all ????
-    void initTaskManagers() {
-        taskManager = Managers.getDefault();
+    void initTaskManagers() throws IOException {
+        // taskManager = Managers.getDefault();
+        String filePrefix = "sprint_7-solution-in-file-manager";
+        String fileSuffix = ".csv";
+        pathTemp = Files.createTempFile(filePrefix, fileSuffix);
+        taskManager = InFileTaskManager.LoadFromFile(String.valueOf(pathTemp.toAbsolutePath()));
         historyManager = Managers.getDefaultHistory();
+    }
+
+    @AfterEach
+    void clearing() throws IOException {
+        Files.deleteIfExists(pathTemp);
     }
 
     @Test //#ASIS@TOR убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     void validManagers() {
         assertNotNull(taskManager, "taskManager has not initialized");
         assertNotNull(historyManager, "historyManager has not initialized");
+    }
+
+    @Test //#ASIS@TOR: проверьте, что экземпляры класса Task равны друг другу, если равен их id
+    void validManagerFile() throws IOException {
+        List<String> file2Lines = new ArrayList<>();
+        file2Lines.add("id,type,name,status,description,epic");
+        file2Lines.add("1,TASK,Task1,NEW,Description task1,");
+        file2Lines.add("2,TASK,Task2,IN_PROGRESS,Description task2,");
+        file2Lines.add("3,EPIC,Epic3,DONE,Description epic3,");
+        file2Lines.add("4,SUBTASK,Sub Task4,DONE,Description sub task4,3");
+
+        taskManager.insTask(new Task("Task1", "Description task1", TaskStatus.NEW));
+        taskManager.insTask(new Task("Task2", "Description task2", TaskStatus.IN_PROGRESS));
+        Epic epic = new Epic("Epic3", "Description epic3", TaskStatus.DONE);
+        int epicId = taskManager.insEpic(epic);
+        taskManager.insSubTask(new SubTask("Sub Task4", "Description sub task4", TaskStatus.DONE, epicId));
+
+        file2Lines.remove(2);
+        taskManager.delTask(2);
+
+        List<String> file1Lines = Files.readAllLines(pathTemp);
+
+        assertEquals(file1Lines.size(), file2Lines.size(), "File sizes differ.");
+        for (int i = 0; i < file1Lines.size(); i++) {
+            assertEquals(file2Lines.get(i), file1Lines.get(i), "Line " + (i + 1) + " differs.");
+        }
     }
 
     @Test //#ASIS@TOR: проверьте, что экземпляры класса Task равны друг другу, если равен их id

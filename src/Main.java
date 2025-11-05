@@ -1,5 +1,6 @@
 //#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы
 //#DEMO@BOBA: taskUpdated; subTaskUpdated; epicUpdated : успешное обновление элемента
+//#DEMO@BOBA: InFileTaskManager tm = InFileTaskManager.LoadFromFile("otherTasks.csv");
 
 import tasks.*;
 import manager.*;
@@ -8,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Поехали!");
+        System.out.println("Файл: " + ManagerFileCSVHelper.getDefaultFile());
 
         TaskManager tm = Managers.getDefault();
         printAll(tm, "После создания --------------");
@@ -44,17 +46,18 @@ public class Main {
         tm.getSubTask(subTaskId);
         tm.getEpic(epicId);
         printAll(tm, "После просмотров ------------");
-/*
+
         tm.delTask(taskId);
         tm.delSubTask(subTaskId);
         tm.delEpic(epicId);
         printAll(tm, "После удаления ------------");
 
-        tm.delTasks();
-        tm.delEpics();
-        tm.delSubTasks();
-        printAll(tm, "После удаления всех ------------");
-*/
+//        tm.delTasks();
+//        tm.delEpics();
+//        tm.delSubTasks();
+//        printAll(tm, "После удаления всех ------------");
+//
+//        ManagerFileCSVHelper.deleteDefaultFile();
         System.out.println("Приехали!");
     }
 
