@@ -1,6 +1,6 @@
 //#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы
 //#DEMO@BOBA: taskUpdated; subTaskUpdated; epicUpdated : успешное обновление элемента
-//#DEMO@BOBA: tmNew = InFileTaskManager.LoadFromFile(ManagerFileCSVHelper.getDefaultFile()) : новый управляющий для файла
+//#DEMO@BOBA: tmNew = InFileTaskManager.loadFromFile(ManagerFileCSVHelper.getDefaultFile()) : новый управляющий для файла
 //#ASK@BOBA: taskHistory
 
 import tasks.*;
@@ -48,7 +48,7 @@ public class Main {
         tm.getEpic(epicId);
         printAll(tm, "После просмотров ------------");
 
-        InFileTaskManager tmNew = InFileTaskManager.LoadFromFile(ManagerFileCSVHelper.getDefaultFile());
+        InFileTaskManager tmNew = InFileTaskManager.loadFromFile(ManagerFileCSVHelper.getDefaultFile());
         System.out.println("\n===== Новый управляющий для файла: " + ManagerFileCSVHelper.getDefaultFile() + "=====\n");
 
         tmNew.delTask(taskId);

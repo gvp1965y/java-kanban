@@ -17,7 +17,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
         this.path = Paths.get(pathName);
     }
 
-    public static InFileTaskManager LoadFromFile(String pathName) {
+    public static InFileTaskManager loadFromFile(String pathName) {
         try {
             InFileTaskManager tm = new InFileTaskManager(pathName);
             if (tm.existsFile()) {
@@ -27,7 +27,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
             }
             return tm;
         } catch (InvalidPathException e) {
-            throw new ManagerFileException("Invalid path name: " + pathName);
+            throw new ManagerFileException("Invalid filename: " + pathName);
         }
     }
 

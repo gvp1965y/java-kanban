@@ -33,7 +33,7 @@ class TestProgram{
         String filePrefix = "sprint_7-solution-in-file-manager";
         String fileSuffix = ".csv";
         pathTemp = Files.createTempFile(filePrefix, fileSuffix);
-        taskManager = InFileTaskManager.LoadFromFile(String.valueOf(pathTemp.toAbsolutePath()));  // IN_FILE
+        taskManager = InFileTaskManager.loadFromFile(String.valueOf(pathTemp.toAbsolutePath()));  // IN_FILE
         //#DO@BOBA taskManager = Managers.getDefault();                                           // IN_MEMORY
         historyManager = Managers.getDefaultHistory();
     }
@@ -56,7 +56,7 @@ class TestProgram{
         final int epicId = taskManager.insEpic(new Epic("Epic3", "Description epic3", TaskStatus.DONE));
         final int subtaskId = taskManager.insSubTask(new SubTask("Sub Task4", "Description sub task4", TaskStatus.DONE, epicId));
 
-        TaskManager taskManagerNew = InFileTaskManager.LoadFromFile(String.valueOf(pathTemp.toAbsolutePath()));
+        TaskManager taskManagerNew = InFileTaskManager.loadFromFile(String.valueOf(pathTemp.toAbsolutePath()));
         taskManagerNew.delTask(2);
         SubTask subtask = taskManagerNew.getSubTask(subtaskId);
         subtask.setStatus(TaskStatus.IN_PROGRESS);
