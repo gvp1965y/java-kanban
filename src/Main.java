@@ -1,7 +1,6 @@
 //#DEMO@BOBA: task, taskId; subTask, subTaskId; epic, epicId: изменяемые элементы
 //#DEMO@BOBA: taskUpdated; subTaskUpdated; epicUpdated : успешное обновление элемента
 //#DEMO@BOBA: tmNew = InFileTaskManager.loadFromFile(ManagerFileCSVHelper.getDefaultFile()) : новый управляющий для файла
-//#ASK@BOBA: taskHistory
 
 import tasks.*;
 import manager.*;

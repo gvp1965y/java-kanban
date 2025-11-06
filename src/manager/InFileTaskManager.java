@@ -1,7 +1,6 @@
 package manager;
 
 import tasks.*;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -73,7 +72,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
                         break;
                     case SUBTASK:
                         subtasks.put(id, (SubTask) task);
-                        getEpic(getSubTask(id).getEpicId()).insSubTask(id);
+                        epics.get(((SubTask) task).getEpicId()).insSubTask(id);
                         break;
                     default:
                         break;
@@ -85,7 +84,7 @@ public class InFileTaskManager extends InMemoryTaskManager {
     }
 
     private void saveToCSV() {
-        //#ALERT@BOBA: recording sequence is important, - subtasks only after epics
+        //#WARN@BOBA: recording sequence is important, - subtasks only after epics
         try {
             Files.deleteIfExists(path);
             Files.createFile(path);
@@ -97,12 +96,12 @@ public class InFileTaskManager extends InMemoryTaskManager {
                 buff.write(toString(task));
             }
             Collection<Epic> epicValues = epics.values();
-            for (Task task : epicValues) { //#ASK@BOBA: Epic epic
-                buff.write(toString(task));
+            for (Epic epic : epicValues) {
+                buff.write(toString(epic));
             }
             Collection<SubTask> subTaskValues = subtasks.values();
-            for (Task task : subTaskValues) { //#ASK@BOBA: SubTask subTask
-                buff.write(toString(task));
+            for (SubTask subTask : subTaskValues) {
+                buff.write(toString(subTask));
             }
             buff.close();
         } catch (IOException e) {
