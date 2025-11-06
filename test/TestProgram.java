@@ -2,28 +2,79 @@
 // Реализованы только те тесты, которые указаны в ТЗ "Финальный проект спринта 5" и "Финальный проект спринта 6" в порядке перечисления.
 // "Непонятки" и ошибки в ТЗ трактуются "в пользу" программиста.
 
-import tasks.*;
-import manager.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import manager.HistoryManager;
+import manager.InFileTaskManager;
+import manager.Managers;
+import manager.TaskManager;
 
-class TestProgram {
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+import tasks.TaskStatus;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class TestProgram{
     public HistoryManager historyManager;
     public TaskManager taskManager;
+    public Path pathTemp;
 
-    @BeforeEach                           //#ASK@BOBA: before all ????
-    void initTaskManagers() {
-        taskManager = Managers.getDefault();
+    @BeforeEach
+    void initTaskManagers() throws IOException {
+        String filePrefix = "sprint_7-solution-in-file-manager";
+        String fileSuffix = ".csv";
+        pathTemp = Files.createTempFile(filePrefix, fileSuffix);
+        taskManager = InFileTaskManager.loadFromFile(String.valueOf(pathTemp.toAbsolutePath()));  // IN_FILE
+        //#DO@BOBA taskManager = Managers.getDefault();                                           // IN_MEMORY
         historyManager = Managers.getDefaultHistory();
+    }
+
+    @AfterEach
+    void clearingFile() throws IOException {
+        Files.deleteIfExists(pathTemp);
     }
 
     @Test //#ASIS@TOR убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры менеджеров
     void validManagers() {
         assertNotNull(taskManager, "taskManager has not initialized");
         assertNotNull(historyManager, "historyManager has not initialized");
+    }
+
+    @Test //#ASIS@TOR: *only IN_FILE* Ещё проверьте работу сохранения и восстановления менеджера из файла (сериализацию)
+    void validManagerFile() throws IOException {
+        taskManager.insTask(new Task("Task1", "Description task1", TaskStatus.NEW));
+        taskManager.insTask(new Task("Task2", "Description task2", TaskStatus.IN_PROGRESS));
+        final int epicId = taskManager.insEpic(new Epic("Epic3", "Description epic3", TaskStatus.DONE));
+        final int subtaskId = taskManager.insSubTask(new SubTask("Sub Task4", "Description sub task4", TaskStatus.DONE, epicId));
+
+        TaskManager taskManagerNew = InFileTaskManager.loadFromFile(String.valueOf(pathTemp.toAbsolutePath()));
+        taskManagerNew.delTask(2);
+        SubTask subtask = taskManagerNew.getSubTask(subtaskId);
+        subtask.setStatus(TaskStatus.IN_PROGRESS);
+        taskManagerNew.updSubTask(subtask);
+        final List<String> fileLines = Files.readAllLines(pathTemp);
+
+        List<String> expectedLines = new ArrayList<>();
+        expectedLines.add("id,type,name,status,description,epic");
+        expectedLines.add("1,TASK,Task1,NEW,Description task1,");
+        expectedLines.add("2,TASK,Task2,IN_PROGRESS,Description task2,");
+        expectedLines.add("3,EPIC,Epic3,IN_PROGRESS,Description epic3,");
+        expectedLines.add("4,SUBTASK,Sub Task4,IN_PROGRESS,Description sub task4,3");
+        expectedLines.remove(2);
+
+        assertEquals(expectedLines.size(), fileLines.size(), "File sizes differ.");
+        for (int i = 0; i < fileLines.size(); i++) {
+            assertEquals(expectedLines.get(i), fileLines.get(i), "Line " + (i + 1) + " differs.");
+        }
     }
 
     @Test //#ASIS@TOR: проверьте, что экземпляры класса Task равны друг другу, если равен их id
@@ -46,7 +97,7 @@ class TestProgram {
         assertEquals(subTask, subTaskClone, "SubTask class instances with the same ID are not equal");
     }
 
-    @Test //#ASIS@TOR: проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
+    @Test //#ASIS@TOR: проверьте, что TaskManager действительно добавляет задачи разного типа и может найти их по id
     void taskManagerIsWorked() {
         final Task task = new Task("Task01", null, TaskStatus.NEW);
         final int taskId = taskManager.insTask(task);

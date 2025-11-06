@@ -3,7 +3,7 @@ package manager;
 public class Managers {
 
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+        return InFileTaskManager.loadFromFile(ManagerFileCSVHelper.FILENAME);
     }
 
     public static HistoryManager getDefaultHistory() {
